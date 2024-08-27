@@ -39,10 +39,14 @@ type ProxyConfig struct {
 {{- if .Charmcraft.Requires }}
 type Integrations struct {
 {{- range $key, $value := .Charmcraft.Requires }}
+{{- if $key.IsKnown }}
+
 {{- if $value.IsDatabase }}
  {{ $key.GoName }} {{ $key.GoName }}Integration `envPrefix:"{{ $key.EnvPrefix }}"`
 {{- else }}
  {{ $key.GoName }} {{ $key.GoName }}Integration
+{{- end }}
+
 {{- end }}
 {{- end }}
 }
@@ -119,10 +123,10 @@ func (_ S3Integration) IsOptional() bool {
 {{- with $saml := .Charmcraft.Requires.Get "saml" }}
 type SAMLIntegration struct {
 	// Review mandatory/optional things
-	EntityID                string  `env:"SAML_ENTITY_ID"`
-	MetadataURL             *string `env:"SAML_METADATA_URL"`
-	SingleSignOnRedirectURL string  `env:"SAML_SINGLE_SIGN_ON_REDIRECT_URL"`
-	SigningCertificat       string  `env:"SAML_SIGNING_CERTIFICATE"`
+	EntityID                string  `env:"APP_SAML_ENTITY_ID"`
+	MetadataURL             *string `env:"APP_SAML_METADATA_URL"`
+	SingleSignOnRedirectURL string  `env:"APP_SAML_SINGLE_SIGN_ON_REDIRECT_URL"`
+	SigningCertificat       string  `env:"APP_SAML_SIGNING_CERTIFICATE"`
 }
 
 func (si SAMLIntegration) IsActive() bool {

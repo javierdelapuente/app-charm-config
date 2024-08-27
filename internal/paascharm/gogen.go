@@ -53,16 +53,18 @@ type ConfigOption struct {
 
 func (co ConfigOption) GoType() (result string) {
 	switch co.Type {
-	case "string":
-		result = "string"
-	case "int":
-		result = "int"
-	case "boolean":
-		result = "bool"
 	case "bool":
 		result = "bool"
+	case "boolean":
+		result = "bool"
+	case "float":
+		result = "float64"
+	case "int":
+		result = "int"
 	case "secret":
 		// TODO IS THIS CORRECT?
+		result = "string"
+	case "string":
 		result = "string"
 	default:
 		log.Printf("Unknown type for a config option of type: %s. Returning string.\n", co.Type)
@@ -97,6 +99,15 @@ func (m RequiresMap) HasDatabase() bool {
 
 type IntegrationName string
 
+// All known integrations. Integrations not in paas-charmer should not be added to the generated code.
+func (in IntegrationName) IsKnown() bool {
+	switch in {
+	case "redis", "mysql", "postgresql", "mongodb", "s3", "saml":
+		return true
+	}
+	return false
+}
+
 func (in IntegrationName) GoName() (result string) {
 	switch in {
 	case "redis":
@@ -109,10 +120,10 @@ func (in IntegrationName) GoName() (result string) {
 		result = "MongoDB"
 	case "s3":
 		result = "S3"
-	case "SAML":
+	case "saml":
 		result = "SAML"
 	default:
-		log.Printf("Invalid INTEGRATION NAME?")
+		log.Printf("Invalid integration name: %s")
 		// TODO CRASH, SHOULD NOT GET HERE?
 	}
 	return
@@ -121,13 +132,13 @@ func (in IntegrationName) GoName() (result string) {
 func (in IntegrationName) EnvPrefix() (result string) {
 	switch in {
 	case "redis":
-		result = "APP_REDIS_DB"
+		result = "APP_REDIS_"
 	case "mysql":
-		result = "APP_MYSQL_DB"
+		result = "APP_MYSQL_"
 	case "postgresql":
-		result = "APP_POSTGRESQL_DB"
+		result = "APP_POSTGRESQL_"
 	case "mongodb":
-		result = "APP_MONGO_DB"
+		result = "APP_MONGODB_"
 	default:
 		// Prefix is just for databases
 		result = ""
@@ -212,6 +223,8 @@ func GenerateGoStructs(templateConfig templateConfig) (goStructs []byte, err err
 	if err != nil {
 		return nil, fmt.Errorf("failed executing go template: %v", err)
 	}
+
+	fmt.Println(buf.String())
 
 	srcFormatted, err := format.Source(buf.Bytes())
 	if err != nil {
