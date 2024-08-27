@@ -4,8 +4,9 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/canonical/paascharmgen/internal/paascharm"
 	"github.com/kylelemons/godebug/pretty"
+
+	"github.com/canonical/paascharmgen/internal/paascharm"
 )
 
 func TestParseValidCharmcraftYaml(t *testing.T) {
