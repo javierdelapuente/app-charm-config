@@ -1,0 +1,31 @@
+name: Spread
+on:
+  pull_request:
+  push:
+    branches: [ master ]
+  workflow_dispatch:
+
+jobs:
+  spread-tests:
+    name: Spread tests
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/checkout@v3
+        with:
+          # repository: snapcore/spread
+          repository: javierdelapuente/spread
+          ref: lxd-improvements
+          path: _spread
+
+      - uses: actions/setup-go@v3
+        with:
+          go-version: '>=1.17.0'
+
+      - uses: canonical/setup-lxd@v0.1.1
+
+      - name: Build and run spread
+        run: |
+          (cd _spread/cmd/spread && go build)
+          _spread/cmd/spread/spread -v

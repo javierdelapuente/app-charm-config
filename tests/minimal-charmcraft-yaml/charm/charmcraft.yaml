@@ -1,0 +1,12 @@
+name: go-app
+type: charm
+base: ubuntu@24.04
+
+platforms:
+  amd64:
+
+summary: A very short one-line summary of the Go application.
+description: |
+  A comprehensive overview of your Go application.
+extensions:
+  - go-framework

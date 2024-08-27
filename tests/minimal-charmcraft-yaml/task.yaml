@@ -1,0 +1,18 @@
+summary: Test Go Structs with charmcraft.yaml without extra information
+
+environment:
+    APP_BASE_URL: http://go-app.example.com
+    APP_PORT: 9000
+    APP_METRICS_PORT: 9001
+    APP_METRICS_PATH: /metrics
+    APP_SECRET_KEY: onerandomkey
+    HTTP_PROXY: http://proxy.example.com:3128
+    # No HTTPS_PROXY
+    NO_PROXY: 127.0.0.1,localhost,::1
+
+execute: |
+  mkdir -p ./config
+  paascharmgen - ./charm/ -o ./config/config.go -p config
+  cat ./config/config.go
+  go run .
+
