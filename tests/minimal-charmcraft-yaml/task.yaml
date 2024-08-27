@@ -12,7 +12,7 @@ environment:
 
 execute: |
   mkdir -p ./config
-  paascharmgen - ./charm/ -o ./config/config.go -p config
+  paascharmgen -c ./charm/ -o ./config/config.go -p config
   cat ./config/config.go
   go run .
 
