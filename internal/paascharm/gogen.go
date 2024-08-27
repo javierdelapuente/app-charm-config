@@ -123,7 +123,7 @@ func (in IntegrationName) GoName() (result string) {
 	case "saml":
 		result = "SAML"
 	default:
-		log.Printf("Invalid integration name: %s")
+		log.Printf("Invalid integration name: %s", in)
 		// TODO CRASH, SHOULD NOT GET HERE?
 	}
 	return
