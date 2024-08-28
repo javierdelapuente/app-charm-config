@@ -105,7 +105,7 @@ type ProxyConfig struct {
         EntityID                string  `env:"APP_SAML_ENTITY_ID"`
         MetadataURL             *string `env:"APP_SAML_METADATA_URL"`
         SingleSignOnRedirectURL string  `env:"APP_SAML_SINGLE_SIGN_ON_REDIRECT_URL"`
-        SigningCertificat       string  `env:"APP_SAML_SIGNING_CERTIFICATE"`
+        SigningCertificate      string  `env:"APP_SAML_SIGNING_CERTIFICATE"`
     }
 
     func (si SAMLIntegration) IsActive() bool {
