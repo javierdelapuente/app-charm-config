@@ -22,7 +22,8 @@ func main() {
 	httpProxy := "http://proxy.example.com:3128"
 	userConfigIntNoDefault := 3
 	postgreSQLUsername := "test-username"
-	postgreSQLPassword := "test-postgresql"
+	postgreSQLPassword := "test-password"
+	postgreSQLHostname := "test-postgresql"
 	postgreSQLPort := 5432
 	redisHostname := "redisuri"
 	s3Region := "region"
@@ -65,7 +66,8 @@ func main() {
 					Query:         "connect_timeout=10",
 					Fragment:      "",
 					Username:      &postgreSQLUsername,
-					Hostname:      &postgreSQLPassword,
+					Password:      &postgreSQLPassword,
+					Hostname:      &postgreSQLHostname,
 					Port:          &postgreSQLPort,
 				},
 			},
@@ -79,6 +81,7 @@ func main() {
 					Query:         "",
 					Fragment:      "",
 					Username:      nil,
+					Password:      nil,
 					Hostname:      &redisHostname,
 					Port:          nil,
 				},
