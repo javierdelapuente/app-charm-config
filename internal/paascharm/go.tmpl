@@ -5,22 +5,22 @@ type CharmConfig struct {
      ConfigOptions ConfigOptions
      ProxyConfig   ProxyConfig
      {{- if .Integrations }}
-     Integrations  Integrations
+         Integrations Integrations
      {{- end }}
 }
 
 type ConfigOptions struct {
-	BaseURL     string  `env:"APP_BASE_URL"`
-     	Port        int     `env:"APP_PORT"`
-	MetricsPort *int    `env:"APP_METRICS_PORT"`
-	MetricsPath *string `env:"APP_METRICS_PATH"`
-	SecretKey   *string `env:"APP_SECRET_KEY"`
-	{{- if .Options }}
-	UserConfigOptions
-	{{- end }}
+     BaseURL string `env:"APP_BASE_URL"`
+     Port int `env:"APP_PORT"`
+     MetricsPort *int `env:"APP_METRICS_PORT"`
+     MetricsPath *string `env:"APP_METRICS_PATH"`
+     SecretKey *string `env:"APP_SECRET_KEY"`
+     {{- if .Options }}
+         UserConfigOptions
+     {{- end }}
 }
 
-{{- if .Options }}
+{{ if .Options }}
     type UserConfigOptions struct {
     {{- range .Options }}
         {{ .GoVarName }} {{ .GoVarType }} `env:"{{ .EnvVarName }}"`
@@ -28,17 +28,16 @@ type ConfigOptions struct {
     }
 {{- end }}
 
-
 type ProxyConfig struct {
-	HTTPProxy  *string `env:"HTTP_PROXY"`
-	HTTPSProxy *string `env:"HTTPS_PROXY"`
-	NoProxy []string `env:"NO_PROXY"`
+     HTTPProxy *string `env:"HTTP_PROXY"`
+     HTTPSProxy *string `env:"HTTPS_PROXY"`
+     NoProxy []string `env:"NO_PROXY"`
 }
 
 {{ if .Integrations }}
    type Integrations struct {
    {{- range .Integrations }}
-      {{ .GoName }} {{ .GoName }}Integration {{ if .IsDatabase }}`envPrefix:"{{ .DatabasePrefix }}"`{{ end }}
+       {{ .GoName }} {{ .GoName }}Integration {{ if .IsDatabase }}`envPrefix:"{{ .DatabasePrefix }}"`{{ end }}
    {{- end }}
    }
 {{ end }}
@@ -48,58 +47,54 @@ type ProxyConfig struct {
 
    {{- range .Integrations }}
        {{ if .IsDatabase }}
-       	type  {{ .GoName }}Integration struct {
-      	     	DatabaseIntegration
-	}
-	{{ end }}
-
-
+       type {{ .GoName }}Integration struct {
+            DatabaseIntegration
+       }
+       {{ end }}
     {{ end }}
 
     type DatabaseIntegration struct {
-    	ConnectString string  `env:"DB_CONNECT_STRING"`
-	Scheme        string  `env:"DB_SCHEME"`
-	NetLoc        string  `env:"DB_NETLOC"`
-	Path          string  `env:"DB_PATH"`
-	Params        string  `env:"DB_PARAMS"`
-	Query         string  `env:"DB_QUERY"`
-	Fragment      string  `env:"DB_FRAGMENT"`
-	Username      *string `env:"DB_USERNAME"`
-	Hostname      *string `env:"DB_HOSTNAME"`
-	Port          *int    `env:"DB_PORT"`
+         ConnectString string  `env:"DB_CONNECT_STRING"`
+         Scheme        string  `env:"DB_SCHEME"`
+         NetLoc        string  `env:"DB_NETLOC"`
+         Path          string  `env:"DB_PATH"`
+         Params        string  `env:"DB_PARAMS"`
+         Query         string  `env:"DB_QUERY"`
+         Fragment      string  `env:"DB_FRAGMENT"`
+         Username      *string `env:"DB_USERNAME"`
+         Hostname      *string `env:"DB_HOSTNAME"`
+         Port          *int    `env:"DB_PORT"`
     }
 
     func (di DatabaseIntegration) IsActive() bool {
-    	return di.ConnectString != ""
+         return di.ConnectString != ""
     }
 
 {{ end }}
 
-
 {{ if .Integrations.s3 }}
    {{- with .Integrations.s3 }}
    type S3Integration struct {
-	AccessKey    string  `env:"APP_S3_ACCES1S_KEY"`
-	SecretKey    string  `env:"APP_S3_SECRET_KEY"`
-	Region       *string `env:"APP_S3_REGION"`
-	StorageClass *string `env:"APP_S3_STORAGE_CLASS"`
-	Bucket       string  `env:"APP_S3_BUCKET"`
-	Endpoint     *string `env:"APP_S3_ENDPOING"`
-	Path         *string `env:"APP_S3_PATH"`
-	ApiVersion   *string `env:"APP_S3_API_VERSION"`
-	UriStyle        *string `env:"APP_S3_URI_STYLE"`
-	AddressingStyle *string `env:"APP_S3_ADDRESSING_STYLE"`
-	Attributes *string `env:"APP_S3_ATTRIBUTES"`
-	TLSCAChain *string `env:"APP_S3_TLS_CA_CHAIN"`
+        AccessKey    string  `env:"APP_S3_ACCES1S_KEY"`
+        SecretKey    string  `env:"APP_S3_SECRET_KEY"`
+        Region       *string `env:"APP_S3_REGION"`
+        StorageClass *string `env:"APP_S3_STORAGE_CLASS"`
+        Bucket       string  `env:"APP_S3_BUCKET"`
+        Endpoint     *string `env:"APP_S3_ENDPOING"`
+        Path         *string `env:"APP_S3_PATH"`
+        ApiVersion   *string `env:"APP_S3_API_VERSION"`
+        UriStyle        *string `env:"APP_S3_URI_STYLE"`
+        AddressingStyle *string `env:"APP_S3_ADDRESSING_STYLE"`
+        Attributes *string `env:"APP_S3_ATTRIBUTES"`
+        TLSCAChain *string `env:"APP_S3_TLS_CA_CHAIN"`
     }
 
     func (s3 S3Integration) IsActive() bool {
-    	if s3.AccessKey == "" {
-		return false
-	}
-	return true
+        if s3.AccessKey == "" {
+           return false
+        }
+        return true
     }
-
    {{ end }}
 {{ end }}
 
@@ -107,27 +102,24 @@ type ProxyConfig struct {
 {{ if .Integrations.saml }}
    {{- with .Integrations.saml }}
    type SAMLIntegration struct {
-	// Review mandatory/optional things
-	EntityID                string  `env:"APP_SAML_ENTITY_ID"`
-	MetadataURL             *string `env:"APP_SAML_METADATA_URL"`
-	SingleSignOnRedirectURL string  `env:"APP_SAML_SINGLE_SIGN_ON_REDIRECT_URL"`
-	SigningCertificat       string  `env:"APP_SAML_SIGNING_CERTIFICATE"`
+        EntityID                string  `env:"APP_SAML_ENTITY_ID"`
+        MetadataURL             *string `env:"APP_SAML_METADATA_URL"`
+        SingleSignOnRedirectURL string  `env:"APP_SAML_SINGLE_SIGN_ON_REDIRECT_URL"`
+        SigningCertificat       string  `env:"APP_SAML_SIGNING_CERTIFICATE"`
     }
 
     func (si SAMLIntegration) IsActive() bool {
-	if si.EntityID == "" {
-		return false
-	}
-	return true
+        if si.EntityID == "" {
+            return false
+        }
+        return true
     }
 
    {{ end }}
 {{ end }}
 
-
 {{- range .Integrations }}
     func (_ {{ .GoName }}Integration) IsOptional() bool {
          return {{ .Optional }}
-     }
+    }
 {{ end }}
-   
