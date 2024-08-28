@@ -14,7 +14,10 @@ jobs:
 
       - uses: actions/checkout@v3
         with:
-          # repository: snapcore/spread
+          # spread does not work correctly with lxd.
+          # See https://github.com/snapcore/spread/pull/179
+          # Once the fix is merged, update the repository
+          # to snapcore/spread
           repository: javierdelapuente/spread
           ref: lxd-improvements
           path: _spread
