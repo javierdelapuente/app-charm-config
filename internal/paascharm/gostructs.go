@@ -120,7 +120,8 @@ func buildGoVarType(configOption CharmcraftConfigOption) (result string, err err
 		return result, fmt.Errorf("Unknown type for config option of type: %s", configOption.Type)
 	}
 
-	// If it is nil by default, we may want to differentiate a default value from no environment variable
+	// If there is no default value for a config option, a pointer can help differentiate between
+	// the empty value and no value specified in the config option.
 	if configOption.Default == nil {
 		result = "*" + result
 	}
