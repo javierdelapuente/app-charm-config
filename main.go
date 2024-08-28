@@ -7,17 +7,21 @@ import (
 	"github.com/canonical/paascharmgen/internal/paascharm"
 )
 
+const (
+	defaultCharmcraftLocation = "."
+	defaultPackageName        = "charmconfig"
+	defaultOutputFile         = "charmconfig/charmconfig.go"
+)
+
 func main() {
-	charmcraftDir := flag.String("c", ".", "charmcraft.yaml file directory")
-	packageName := flag.String("p", "charmconfig", "name of the generated package")
-	outputFile := flag.String("o", "charmconfig/charmconfig.go", "output file")
+	charmcraftDir := flag.String("c", defaultCharmcraftLocation, "charmcraft.yaml file directory")
+	packageName := flag.String("p", defaultPackageName, "name of the generated package")
+	outputFile := flag.String("o", defaultOutputFile, "output file")
 	flag.Parse()
 
-	log.Printf("charmcraft.yaml location: %s\n", *charmcraftDir)
-	log.Printf("package name: %s\n", *packageName)
-	log.Printf("output file: %s\n", *outputFile)
+	// TODO MAKE OUTPUTFILE MANDATORY?
 
-	err := paascharm.Generate(*charmcraftDir, *packageName, *outputFile)
+	err := paascharm.CreateGoStructs(*charmcraftDir, *packageName, *outputFile)
 	if err != nil {
 		log.Fatal(err)
 	}

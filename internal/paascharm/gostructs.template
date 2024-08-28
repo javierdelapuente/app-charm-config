@@ -4,11 +4,10 @@ package {{ .PackageName }}
 type CharmConfig struct {
      ConfigOptions ConfigOptions
      ProxyConfig   ProxyConfig
-     {{- if .Charmcraft.Requires }}
+     {{- if .Integrations }}
      Integrations  Integrations
      {{- end }}
 }
-
 
 type ConfigOptions struct {
 	BaseURL     string  `env:"APP_BASE_URL"`
@@ -16,18 +15,19 @@ type ConfigOptions struct {
 	MetricsPort *int    `env:"APP_METRICS_PORT"`
 	MetricsPath *string `env:"APP_METRICS_PATH"`
 	SecretKey   *string `env:"APP_SECRET_KEY"`
-	{{- if .Charmcraft.Config.Options }}
+	{{- if .Options }}
 	UserConfigOptions
 	{{- end }}
 }
 
-{{ if .Charmcraft.Config.Options }}
-type UserConfigOptions struct {
-{{- range $key, $value := .Charmcraft.Config.Options }}
-   {{ $key.GoVarName }} {{ $value.GoType }}   `env:"{{ $key.EnvVarName }}"`
+{{- if .Options }}
+    type UserConfigOptions struct {
+    {{- range .Options }}
+        {{ .GoVarName }} {{ .GoVarType }} `env:"{{ .EnvVarName }}"`
+    {{- end }}
+    }
 {{- end }}
-}
-{{- end }}
+
 
 type ProxyConfig struct {
 	HTTPProxy  *string `env:"HTTP_PROXY"`
@@ -35,39 +35,27 @@ type ProxyConfig struct {
 	NoProxy []string `env:"NO_PROXY"`
 }
 
-
-{{- if .Charmcraft.Requires }}
-type Integrations struct {
-{{- range $key, $value := .Charmcraft.Requires }}
-{{- if $key.IsKnown }}
-
-{{- if $value.IsDatabase }}
- {{ $key.GoName }} {{ $key.GoName }}Integration `envPrefix:"{{ $key.EnvPrefix }}"`
-{{- else }}
- {{ $key.GoName }} {{ $key.GoName }}Integration
-{{- end }}
-
-{{- end }}
-{{- end }}
-}
-{{- end }}
-
-{{ range $key, $value := .Charmcraft.Requires -}}
-{{- if $value.IsDatabase }}
-type  {{ $key.GoName }}Integration struct {
-	DatabaseIntegration
-}
-
-func (_ {{  $key.GoName }}Integration) IsOptional() bool {
-	return {{ $value.Optional }}
-}
-{{- end }}
-{{- end }}
+{{ if .Integrations }}
+   type Integrations struct {
+   {{- range .Integrations }}
+      {{ .GoName }} {{ .GoName }}Integration {{ if .IsDatabase }}`envPrefix:"{{ .DatabasePrefix }}"`{{ end }}
+   {{- end }}
+   }
+{{ end }}
 
 
-{{- if .Charmcraft.Requires.HasDatabase }}
-type DatabaseIntegration struct {
-	ConnectString string  `env:"DB_CONNECT_STRING"`
+{{ if .HasDatabaseIntegrations }}
+
+   {{- range .Integrations }}
+       {{ if .IsDatabase }}
+       type  {{ .GoName }}Integration struct {
+       	     	DatabaseIntegration
+		}
+	{{ end }}
+    {{ end }}
+
+    type DatabaseIntegration struct {
+    	ConnectString string  `env:"DB_CONNECT_STRING"`
 	Scheme        string  `env:"DB_SCHEME"`
 	NetLoc        string  `env:"DB_NETLOC"`
 	Path          string  `env:"DB_PATH"`
@@ -77,16 +65,18 @@ type DatabaseIntegration struct {
 	Username      *string `env:"DB_USERNAME"`
 	Hostname      *string `env:"DB_HOSTNAME"`
 	Port          *int    `env:"DB_PORT"`
-}
+    }
 
-func (di DatabaseIntegration) IsActive() bool {
-	return di.ConnectString != ""
-}
-{{- end }}
+    func (di DatabaseIntegration) IsActive() bool {
+    	return di.ConnectString != ""
+    }
 
-{{- if .Charmcraft.Requires.Contains "s3" }}
-{{- with $s3 := .Charmcraft.Requires.Get "s3" }}
-type S3Integration struct {
+{{ end }}
+
+
+{{ if .Integrations.s3 }}
+   {{- with .Integrations.s3 }}
+   type S3Integration struct {
 	AccessKey    string  `env:"APP_S3_ACCES1S_KEY"`
 	SecretKey    string  `env:"APP_S3_SECRET_KEY"`
 	Region       *string `env:"APP_S3_REGION"`
@@ -103,42 +93,45 @@ type S3Integration struct {
 	Attributes *string `env:"APP_S3_ATTRIBUTES"`
 	// TODO THIS IS A JSON, WHAT DO I DO IN HERE?
 	TLSCAChain *string `env:"APP_S3_TLS_CA_CHAIN"`
-}
+    }
 
-func (s3 S3Integration) IsActive() bool {
-	if s3.AccessKey == "" {
+    func (s3 S3Integration) IsActive() bool {
+    	if s3.AccessKey == "" {
 		return false
 	}
 	return true
-}
+    }
 
-// Hardcoded to the value in charmcraft.yaml
-func (_ S3Integration) IsOptional() bool {
-	return {{ $s3.Optional }}
-}
-{{- end }}
-{{- end }}
+    // Hardcoded to the value in charmcraft.yaml
+    func (_ S3Integration) IsOptional() bool {
+	return {{ .Optional }}
+    }   
 
-{{- if .Charmcraft.Requires.Contains "saml" }}
-{{- with $saml := .Charmcraft.Requires.Get "saml" }}
-type SAMLIntegration struct {
+   {{ end }}
+{{ end }}
+
+
+{{ if .Integrations.saml }}
+   {{- with .Integrations.saml }}
+   type SAMLIntegration struct {
 	// Review mandatory/optional things
 	EntityID                string  `env:"APP_SAML_ENTITY_ID"`
 	MetadataURL             *string `env:"APP_SAML_METADATA_URL"`
 	SingleSignOnRedirectURL string  `env:"APP_SAML_SINGLE_SIGN_ON_REDIRECT_URL"`
 	SigningCertificat       string  `env:"APP_SAML_SIGNING_CERTIFICATE"`
-}
+    }
 
-func (si SAMLIntegration) IsActive() bool {
+    func (si SAMLIntegration) IsActive() bool {
 	if si.EntityID == "" {
 		return false
 	}
 	return true
-}
+    }
 
-// Hardcoded to the value in charmcraft.yaml
-func (_ SAMLIntegration) IsOptional() bool {
-	return {{ $saml.Optional }}
-}
-{{- end }}
-{{- end }}
+    // Hardcoded to the value in charmcraft.yaml
+    func (_ SAMLIntegration) IsOptional() bool {
+    	 return {{ .Optional }}
+    }
+
+   {{ end }}
+{{ end }}
