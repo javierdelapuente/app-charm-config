@@ -25,6 +25,7 @@ func main() {
 	postgreSQLPassword := "test-password"
 	postgreSQLHostname := "test-postgresql"
 	postgreSQLPort := 5432
+	postgreSQLName := "test-database"
 	redisHostname := "redisuri"
 	s3Region := "region"
 	s3StorageClass := "GLACIER"
@@ -69,6 +70,7 @@ func main() {
 					Password:      &postgreSQLPassword,
 					Hostname:      &postgreSQLHostname,
 					Port:          &postgreSQLPort,
+					Name:          &postgreSQLName,
 				},
 			},
 			Redis: config.RedisIntegration{
@@ -84,6 +86,7 @@ func main() {
 					Password:      nil,
 					Hostname:      &redisHostname,
 					Port:          nil,
+					Name:          nil,
 				},
 			},
 			S3: config.S3Integration{

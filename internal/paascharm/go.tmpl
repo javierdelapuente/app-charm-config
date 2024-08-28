@@ -65,6 +65,7 @@ type ProxyConfig struct {
          Hostname      *string `env:"DB_HOSTNAME"`
          Password      *string `env:"DB_PASSWORD"`
          Port          *int    `env:"DB_PORT"`
+         Name          *string `env:"DB_NAME"`
     }
 
     func (di DatabaseIntegration) IsActive() bool {
