@@ -5,9 +5,8 @@ import (
 	"sort"
 	"testing"
 
-	"github.com/kylelemons/godebug/pretty"
-
 	"github.com/canonical/paascharmgen/internal/paascharm"
+	"github.com/kr/pretty"
 )
 
 func TestConfigOptions(t *testing.T) {
@@ -71,7 +70,7 @@ func TestConfigOptions(t *testing.T) {
 			}
 			actual := goStructsData.Options[0]
 
-			if diff := pretty.Compare(actual, tt.expected); diff != "" {
+			if diff := pretty.Diff(actual, tt.expected); len(diff) > 0 {
 				t.Errorf("config optoin is not correctly generated. diff: %s\n", diff)
 			}
 		})
@@ -139,7 +138,7 @@ func TestIntegrations(t *testing.T) {
 				t.Fatalf("Error creating Go structs data %s", err)
 			}
 
-			if diff := pretty.Compare(actual, tt.expected); diff != "" {
+			if diff := pretty.Diff(actual, tt.expected); len(diff) > 0 {
 				t.Errorf("go structs data is not correctly generated. diff: %s\n", diff)
 			}
 		})

@@ -3,9 +3,8 @@ package paascharm_test
 import (
 	"testing"
 
-	"github.com/kylelemons/godebug/pretty"
-
 	"github.com/canonical/paascharmgen/internal/paascharm"
+	"github.com/kr/pretty"
 )
 
 func TestGenerateGoStructsFromCharmcraftYaml(t *testing.T) {
@@ -97,7 +96,7 @@ parts: {0-git: {plugin: nil, build-packages: [git]}}
 		},
 	}
 
-	if diff := pretty.Compare(normalizeGoStructsData(goStructs), normalizeGoStructsData(expected)); diff != "" {
+	if diff := pretty.Diff(normalizeGoStructsData(goStructs), normalizeGoStructsData(expected)); len(diff) > 0 {
 		t.Errorf("goStructs is not correctly generated. diff: %s\n", diff)
 	}
 }
