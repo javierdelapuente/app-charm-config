@@ -1,19 +1,13 @@
 package main
 
 import (
-	"fmt"
 	"go-app/config"
 	"log"
-	"net/http"
 	"reflect"
 
 	"github.com/caarlos0/env/v11"
 	"github.com/kr/pretty"
 )
-
-func hello(w http.ResponseWriter, req *http.Request) {
-	fmt.Fprintf(w, "Hello, World!")
-}
 
 func main() {
 	var cfg config.CharmConfig
