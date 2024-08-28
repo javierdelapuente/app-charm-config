@@ -59,6 +59,7 @@ type Integration struct {
 	DatabasePrefix string
 }
 
+// Create a GoStructsData with all the information needed to generate the Go file from the charmcraft.yaml parsed file
 func NewGoStructsData(packageName string, charmcraft CharmcraftYamlConfig) (goStructs GoStructsData, err error) {
 	goStructs = GoStructsData{
 		PackageName: packageName,
@@ -101,6 +102,9 @@ func NewGoStructsData(packageName string, charmcraft CharmcraftYamlConfig) (goSt
 	return
 }
 
+// config option name to Go variable name.
+// capitalises first letter and every letter after a '-'
+// and also removes '-'. user-config will become UserConfig.
 func buildGoVarName(configName string) (result string) {
 	parts := strings.Split(configName, "-")
 	for _, part := range parts {

@@ -12,6 +12,10 @@ import (
 	"text/template"
 )
 
+// CreateGoStructs reads the charmcraft.yaml file from the charmcraftDir directory
+// and outputs the Go file with the proper structs in the outputFile location,
+// using as package name packageName. It will override the outputFile file if
+// it exists and create all the parent directories if missing.
 func CreateGoStructs(charmcraftDir string, packageName string, outputFile string) (err error) {
 	yamlFile, err := os.ReadFile(path.Join(charmcraftDir, CharmcraftFileName))
 	if err != nil {
@@ -50,7 +54,9 @@ func CreateGoStructs(charmcraftDir string, packageName string, outputFile string
 //go:embed go.tmpl
 var GoTemplate string
 
-func GenerateGoStructs(goStructInfo GoStructsData) (goStructs []byte, err error) {
+// Generate a []byte with the Go file containing the Go structs for a GoStructsData struct.
+// The output code is formatted following gofmt style.
+func GenerateGoStructs(goStructsData GoStructsData) (goStructs []byte, err error) {
 	tmpl, err := template.New("").Parse(GoTemplate)
 	if err != nil {
 		return
@@ -58,7 +64,7 @@ func GenerateGoStructs(goStructInfo GoStructsData) (goStructs []byte, err error)
 
 	var buf bytes.Buffer
 
-	err = tmpl.Execute(&buf, goStructInfo)
+	err = tmpl.Execute(&buf, goStructsData)
 	if err != nil {
 		return nil, fmt.Errorf("failed executing go template: %v", err)
 	}
