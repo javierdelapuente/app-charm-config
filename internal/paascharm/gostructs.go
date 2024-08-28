@@ -7,8 +7,8 @@ import (
 	"unicode"
 )
 
-// From integration key to the go Name
-var IntegrationsNames = map[string]string{
+// Map from integration key in charmcraft.yaml to Go name
+var IntegrationsToGoName = map[string]string{
 	"mongodb":    "MongoDB",
 	"mysql":      "MySQL",
 	"postgresql": "PostgreSQL",
@@ -17,15 +17,15 @@ var IntegrationsNames = map[string]string{
 	"saml":       "SAML",
 }
 
-// Contains the prefixes for database integrations
-var DatabaseIntegrationsPrefixes = map[string]string{
+// Map from database integration key in charmcraft.yaml to its prefix in env vars
+var DatabaseIntegrationNameToPrefix = map[string]string{
 	"mongodb":    "APP_MONGODB_",
 	"mysql":      "APP_MYSQL_",
 	"postgresql": "APP_POSTGRESQL_",
 	"redis":      "APP_REDIS_",
 }
 
-// Charmcraft types to Go Types
+// Charmcraft config options types to Go Types
 var CharmcraftToGoTypes = map[string]string{
 	"bool":    "bool",
 	"boolean": "bool",
@@ -85,9 +85,9 @@ func NewGoStructsData(packageName string, charmcraft CharmcraftYamlConfig) (goSt
 			Optional:  value.Optional,
 		}
 
-		if goName, ok := IntegrationsNames[key]; ok {
+		if goName, ok := IntegrationsToGoName[key]; ok {
 			integration.GoName = goName
-			if databasePrefix, okDatabase := DatabaseIntegrationsPrefixes[key]; okDatabase {
+			if databasePrefix, okDatabase := DatabaseIntegrationNameToPrefix[key]; okDatabase {
 				goStructs.HasDatabaseIntegrations = true
 				integration.IsDatabase = true
 				integration.DatabasePrefix = databasePrefix
