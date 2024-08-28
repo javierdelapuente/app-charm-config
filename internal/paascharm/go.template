@@ -48,10 +48,12 @@ type ProxyConfig struct {
 
    {{- range .Integrations }}
        {{ if .IsDatabase }}
-       type  {{ .GoName }}Integration struct {
-       	     	DatabaseIntegration
-		}
+       	type  {{ .GoName }}Integration struct {
+      	     	DatabaseIntegration
+	}
 	{{ end }}
+
+
     {{ end }}
 
     type DatabaseIntegration struct {
@@ -85,13 +87,9 @@ type ProxyConfig struct {
 	Endpoint     *string `env:"APP_S3_ENDPOING"`
 	Path         *string `env:"APP_S3_PATH"`
 	ApiVersion   *string `env:"APP_S3_API_VERSION"`
-	// TODO For this variables and similar ones,
-	// should we document/restrict/whatever the possible values?
 	UriStyle        *string `env:"APP_S3_URI_STYLE"`
 	AddressingStyle *string `env:"APP_S3_ADDRESSING_STYLE"`
-	// TODO THIS IS A JSON, WHAT DO I DO IN HERE?
 	Attributes *string `env:"APP_S3_ATTRIBUTES"`
-	// TODO THIS IS A JSON, WHAT DO I DO IN HERE?
 	TLSCAChain *string `env:"APP_S3_TLS_CA_CHAIN"`
     }
 
@@ -101,11 +99,6 @@ type ProxyConfig struct {
 	}
 	return true
     }
-
-    // Hardcoded to the value in charmcraft.yaml
-    func (_ S3Integration) IsOptional() bool {
-	return {{ .Optional }}
-    }   
 
    {{ end }}
 {{ end }}
@@ -128,10 +121,13 @@ type ProxyConfig struct {
 	return true
     }
 
-    // Hardcoded to the value in charmcraft.yaml
-    func (_ SAMLIntegration) IsOptional() bool {
-    	 return {{ .Optional }}
-    }
-
    {{ end }}
 {{ end }}
+
+
+{{- range .Integrations }}
+    func (_ {{ .GoName }}Integration) IsOptional() bool {
+         return {{ .Optional }}
+     }
+{{ end }}
+   

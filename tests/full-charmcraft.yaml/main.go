@@ -119,4 +119,29 @@ func main() {
 		log.Fatalf("Wrong configuration.")
 	}
 
+	if cfg.Integrations.PostgreSQL.IsOptional() {
+		log.Fatalf("PostgreSQL integration should not be optional.")
+	}
+
+	// PostgreSQL Integration is active, as there are config env vars related to it.
+	if !cfg.Integrations.PostgreSQL.IsActive() {
+		log.Fatalf("PostgreSQL integration should be active.")
+	}
+
+	if !cfg.Integrations.MySQL.IsOptional() {
+		log.Fatalf("MySQL integration should be optional.")
+	}
+	// MySQL Integration is not active, as there are no env variables related to MySQL
+	if cfg.Integrations.MySQL.IsActive() {
+		log.Fatalf("MySQL integration should not be active.")
+	}
+
+	if cfg.Integrations.S3.IsOptional() {
+		log.Fatalf("S3 integration should not be optional.")
+	}
+
+	if !cfg.Integrations.SAML.IsActive() {
+		log.Fatalf("SAML integration should be optional.")
+	}
+
 }

@@ -10,7 +10,7 @@ import (
 const (
 	defaultCharmcraftLocation = "."
 	defaultPackageName        = "charmconfig"
-	defaultOutputFile         = "charmconfig/charmconfig.go"
+	defaultOutputFile         = "charmconfig.go"
 )
 
 func main() {
@@ -18,8 +18,6 @@ func main() {
 	packageName := flag.String("p", defaultPackageName, "name of the generated package")
 	outputFile := flag.String("o", defaultOutputFile, "output file")
 	flag.Parse()
-
-	// TODO MAKE OUTPUTFILE MANDATORY?
 
 	err := paascharm.CreateGoStructs(*charmcraftDir, *packageName, *outputFile)
 	if err != nil {
