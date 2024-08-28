@@ -3,8 +3,9 @@ package paascharm_test
 import (
 	"testing"
 
-	"github.com/canonical/paascharmgen/internal/paascharm"
 	"github.com/kr/pretty"
+
+	"github.com/canonical/paascharmgen/internal/paascharm"
 )
 
 func TestGenerateGoStructsFromCharmcraftYaml(t *testing.T) {

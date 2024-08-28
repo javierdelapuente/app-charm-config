@@ -5,6 +5,7 @@ import (
 	_ "embed"
 	"fmt"
 	"go/format"
+	"log"
 	"os"
 	"path"
 	"path/filepath"
@@ -41,6 +42,7 @@ func CreateGoStructs(charmcraftDir string, packageName string, outputFile string
 	if err != nil {
 		return fmt.Errorf("cannot write output file %s: %v", outputFile, err)
 	}
+	log.Printf("Configuration written to file: %s\n", outputFile)
 
 	return
 }
@@ -61,10 +63,10 @@ func GenerateGoStructs(goStructInfo GoStructsData) (goStructs []byte, err error)
 		return nil, fmt.Errorf("failed executing go template: %v", err)
 	}
 
-	srcFormatted, err := format.Source(buf.Bytes())
+	goStructs, err = format.Source(buf.Bytes())
 	if err != nil {
 		return nil, fmt.Errorf("failed formatting go code: %v", err)
 	}
 
-	return srcFormatted, nil
+	return goStructs, nil
 }

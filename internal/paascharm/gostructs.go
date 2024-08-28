@@ -25,6 +25,18 @@ var DatabaseIntegrationsPrefixes = map[string]string{
 	"redis":      "APP_REDIS_",
 }
 
+// Charmcraft types to Go Types
+var CharmcraftToGoTypes = map[string]string{
+	"bool":    "bool",
+	"boolean": "bool",
+	"float":   "float64",
+	"int":     "int",
+	"secret":  "string",
+	"string":  "string",
+}
+
+const ConfigOptionsPrefix = "APP_"
+
 type GoStructsData struct {
 	PackageName             string
 	Options                 []Option
@@ -53,7 +65,7 @@ func NewGoStructsData(packageName string, charmcraft CharmcraftYamlConfig) (goSt
 	}
 
 	for key, value := range charmcraft.Config.Options {
-		err, varType := buildGoVarType(value)
+		varType, err := buildGoVarType(value)
 		if err != nil {
 			return goStructs, err
 		}
@@ -101,24 +113,13 @@ func buildGoVarName(configName string) (result string) {
 	return result
 }
 
-func buildGoVarType(configOption CharmcraftConfigOption) (err error, result string) {
-	switch configOption.Type {
-	case "bool":
-		result = "bool"
-	case "boolean":
-		result = "bool"
-	case "float":
-		result = "float64"
-	case "int":
-		result = "int"
-	case "secret":
-		result = "string"
-	case "string":
-		result = "string"
-	default:
-		err = fmt.Errorf("Unknown type for config option of type: %s", configOption.Type)
-		return
+func buildGoVarType(configOption CharmcraftConfigOption) (result string, err error) {
+	if goType, ok := CharmcraftToGoTypes[configOption.Type]; ok {
+		result = goType
+	} else {
+		return result, fmt.Errorf("Unknown type for config option of type: %s", configOption.Type)
 	}
+
 	// If it is nil by default, we may want to differentiate a default value from no environment variable
 	if configOption.Default == nil {
 		result = "*" + result
@@ -127,7 +128,7 @@ func buildGoVarType(configOption CharmcraftConfigOption) (err error, result stri
 }
 
 func buildEnvVarName(configName string) string {
-	result := "APP_" + configName
+	result := ConfigOptionsPrefix + configName
 	result = strings.ReplaceAll(result, "-", "_")
 	result = strings.ToUpper(result)
 	return result
