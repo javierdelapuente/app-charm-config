@@ -8,7 +8,7 @@ import (
 )
 
 const (
-	defaultCharmcraftLocation = "."
+	defaultCharmcraftLocation = "./"
 	defaultPackageName        = "charmconfig"
 	defaultOutputFile         = "charmconfig.go"
 )
@@ -21,6 +21,7 @@ func main() {
 
 	err := paascharm.CreateGoStructs(*charmcraftDir, *packageName, *outputFile)
 	if err != nil {
+		flag.Usage()
 		log.Fatal(err)
 	}
 }
