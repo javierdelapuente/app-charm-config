@@ -17,10 +17,12 @@ func ParseCharmcraftYaml(yamlData []byte) (charmcraft CharmcraftYamlConfig, err 
 }
 
 type CharmcraftYamlConfig struct {
-	Config struct {
-		Options map[string]CharmcraftConfigOption
-	}
+	Config   CharmcraftConfig
 	Requires map[string]CharmcraftIntegration
+}
+
+type CharmcraftConfig struct {
+	Options map[string]CharmcraftConfigOption
 }
 
 type CharmcraftConfigOption struct {

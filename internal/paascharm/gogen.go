@@ -45,7 +45,7 @@ func CreateGoStructs(charmcraftDir string, packageName string, outputFile string
 	return
 }
 
-//go:embed gostructs.template
+//go:embed go.template
 var GoTemplate string
 
 func GenerateGoStructs(goStructInfo GoStructsData) (goStructs []byte, err error) {
