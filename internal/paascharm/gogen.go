@@ -24,12 +24,12 @@ func CreateGoStructs(charmcraftDir string, packageName string, outputFile string
 
 	charmcraftConfig, err := ParseCharmcraftYaml(yamlFile)
 	if err != nil {
-		return
+		return fmt.Errorf("error parsing charmcraft.yaml file: %v", err)
 	}
 
 	goStructInfo, err := NewGoStructsData(packageName, charmcraftConfig)
 	if err != nil {
-		return
+		return fmt.Errorf("cannot create go structs data: %v", err)
 	}
 
 	goStructs, err := GenerateGoStructs(goStructInfo)
