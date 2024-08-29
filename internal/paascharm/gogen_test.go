@@ -11,11 +11,12 @@ import (
 
 func TestCreateGoStructsWithEmptyCharmcraftYaml(t *testing.T) {
 	tmpdir := t.TempDir()
-	os.WriteFile(path.Join(tmpdir, "charmcraft.yaml"), []byte(""), 0644)
+	charmcraftFile := path.Join(tmpdir, "charmcraft.yaml")
+	os.WriteFile(charmcraftFile, []byte(""), 0644)
 	packageName := "myconfigcharm"
 	outputFile := path.Join(tmpdir, packageName, "config.go")
 
-	err := paascharm.CreateGoStructs(tmpdir, packageName, outputFile)
+	err := paascharm.CreateGoStructs(charmcraftFile, packageName, outputFile)
 	if err != nil {
 		t.Errorf("Error creating go Structs %v\n", err)
 	}

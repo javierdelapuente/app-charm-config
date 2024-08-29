@@ -12,10 +12,10 @@ the rockcraft and charmcraft go-framework.
 You can choose to install the tool with `go install github.com/canonical/paascharmgen@latest` or run it directly without install.
 
 You can add a directive similar to the following one to one of your Go files, replacing the placeholders:
-`//go:generate paascharmgen -c <charmcraft_yaml_directory> -o <output_go_file> -p <package_name>`
+`//go:generate paascharmgen -c <charmcraft_yaml_file> -o <output_go_file> -p <package_name>`
 
 Without installing, you can create a directive like the following one:
-`//go:generate go run github.com/canonical/paascharmgen@latest -c <charmcraft_yaml_directory> -o <output_go_file> -p <package_name>`
+`//go:generate go run github.com/canonical/paascharmgen@latest -c <charmcraft_yaml_file> -o <output_go_file> -p <package_name>`
 
 You can also use the tool directly without a `go:generate` directive. Once the Go source code file with the structs is generated,
 you can use it with the "github.com/caarlos0/env/v11" library like:

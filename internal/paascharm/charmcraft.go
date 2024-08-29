@@ -4,8 +4,6 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-const CharmcraftFileName string = "charmcraft.yaml"
-
 func ParseCharmcraftYaml(yamlData []byte) (charmcraft CharmcraftYamlConfig, err error) {
 	err = yaml.Unmarshal(yamlData, &charmcraft)
 	if err != nil {

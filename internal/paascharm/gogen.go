@@ -7,17 +7,16 @@ import (
 	"go/format"
 	"log"
 	"os"
-	"path"
 	"path/filepath"
 	"text/template"
 )
 
-// CreateGoStructs reads the charmcraft.yaml file from the charmcraftDir directory
+// CreateGoStructs reads the charmcraft.yaml file from the charmcraftFile location
 // and outputs the Go file with the proper structs in the outputFile location,
 // using as package name packageName. It will override the outputFile file if
 // it exists and create all the parent directories if missing.
-func CreateGoStructs(charmcraftDir string, packageName string, outputFile string) (err error) {
-	yamlFile, err := os.ReadFile(path.Join(charmcraftDir, CharmcraftFileName))
+func CreateGoStructs(charmcraftFile string, packageName string, outputFile string) (err error) {
+	yamlFile, err := os.ReadFile(charmcraftFile)
 	if err != nil {
 		return fmt.Errorf("cannot read charmcraft.yaml file: %v", err)
 	}
