@@ -41,11 +41,15 @@ func CreateGoStructs(charmcraftFile string, packageName string, outputFile strin
 		return fmt.Errorf("cannot create parent directories for output file %s: %v", outputFile, err)
 	}
 
+	if _, err := os.Stat(outputFile); err == nil {
+		log.Printf("file %s already exists and will be overridden\n", outputFile)
+	}
+
 	err = os.WriteFile(outputFile, goStructs, 0644)
 	if err != nil {
 		return fmt.Errorf("cannot write output file %s: %v", outputFile, err)
 	}
-	log.Printf("Configuration written to file: %s\n", outputFile)
+	log.Printf("configuration written to file: %s\n", outputFile)
 
 	return
 }
