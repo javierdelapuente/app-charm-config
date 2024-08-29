@@ -1,4 +1,4 @@
-summary: Test Go Structs with charmcraft.yaml without extra information
+summary: Test Go Structs with charmcraft.yaml generated with the charmcraft go-framework
 
 environment:
     APP_BASE_URL: http://go-app.example.com
@@ -11,7 +11,8 @@ environment:
     NO_PROXY: 127.0.0.1,localhost,::1
 
 execute: |
-  mkdir -p ./config
+  mkdir charm
+  (cd charm && charmcraft init --profile go-framework)
   paascharmgen -c ./charm/ -o ./config/config.go -p config
   cat ./config/config.go
   go run .

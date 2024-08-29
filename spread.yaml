@@ -8,6 +8,7 @@ backends:
 
 prepare: |
   snap install go --classic
+  snap install charmcraft --channel=latest/edge --classic
   GOBIN=/usr/local/bin go install -buildvcs=false .
 
 suites:
