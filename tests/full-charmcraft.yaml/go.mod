@@ -1,6 +1,6 @@
 module go-app
 
-go 1.22.6
+go 1.16
 
 require (
 	github.com/caarlos0/env/v11 v11.2.2

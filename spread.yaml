@@ -7,7 +7,7 @@ backends:
         systems: [ubuntu-24.04]
 
 prepare: |
-  snap install go --classic
+  snap install go --classic --channel=1.16/stable
   snap install charmcraft --channel=latest/edge --classic
   GOBIN=/usr/local/bin go install -buildvcs=false .
 
