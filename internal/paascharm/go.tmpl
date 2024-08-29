@@ -10,11 +10,11 @@ type CharmConfig struct {
 }
 
 type ConfigOptions struct {
-     BaseURL string `env:"APP_BASE_URL"`
-     Port int `env:"APP_PORT"`
-     MetricsPort *int `env:"APP_METRICS_PORT"`
-     MetricsPath *string `env:"APP_METRICS_PATH"`
-     SecretKey *string `env:"APP_SECRET_KEY"`
+     BaseURL string `env:"{{ .CommonPrefix }}BASE_URL"`
+     Port int `env:"{{ .CommonPrefix }}PORT"`
+     MetricsPort *int `env:"{{ .CommonPrefix }}METRICS_PORT"`
+     MetricsPath *string `env:"{{ .CommonPrefix }}METRICS_PATH"`
+     SecretKey *string `env:"{{ .CommonPrefix }}SECRET_KEY"`
      {{- if .Options }}
          UserConfigOptions
      {{- end }}
@@ -53,6 +53,8 @@ type ProxyConfig struct {
        {{ end }}
     {{ end }}
 
+    // Common fields to all database integrations. The environment variables
+    // specific database will have a prefix depending on the database.
     type DatabaseIntegration struct {
          ConnectString string  `env:"DB_CONNECT_STRING"`
          Scheme        string  `env:"DB_SCHEME"`
@@ -77,18 +79,18 @@ type ProxyConfig struct {
 {{ if .Integrations.s3 }}
    {{- with .Integrations.s3 }}
    type S3Integration struct {
-        AccessKey    string  `env:"APP_S3_ACCES1S_KEY"`
-        SecretKey    string  `env:"APP_S3_SECRET_KEY"`
-        Region       *string `env:"APP_S3_REGION"`
-        StorageClass *string `env:"APP_S3_STORAGE_CLASS"`
-        Bucket       string  `env:"APP_S3_BUCKET"`
-        Endpoint     *string `env:"APP_S3_ENDPOING"`
-        Path         *string `env:"APP_S3_PATH"`
-        ApiVersion   *string `env:"APP_S3_API_VERSION"`
-        UriStyle        *string `env:"APP_S3_URI_STYLE"`
-        AddressingStyle *string `env:"APP_S3_ADDRESSING_STYLE"`
-        Attributes *string `env:"APP_S3_ATTRIBUTES"`
-        TLSCAChain *string `env:"APP_S3_TLS_CA_CHAIN"`
+        AccessKey    string  `env:"{{ $.CommonPrefix }}S3_ACCESS_KEY"`
+        SecretKey    string  `env:"{{ $.CommonPrefix }}S3_SECRET_KEY"`
+        Region       *string `env:"{{ $.CommonPrefix }}S3_REGION"`
+        StorageClass *string `env:"{{ $.CommonPrefix }}S3_STORAGE_CLASS"`
+        Bucket       string  `env:"{{ $.CommonPrefix }}S3_BUCKET"`
+        Endpoint     *string `env:"{{ $.CommonPrefix }}S3_ENDPOING"`
+        Path         *string `env:"{{ $.CommonPrefix }}S3_PATH"`
+        ApiVersion   *string `env:"{{ $.CommonPrefix }}S3_API_VERSION"`
+        UriStyle        *string `env:"{{ $.CommonPrefix }}S3_URI_STYLE"`
+        AddressingStyle *string `env:"{{ $.CommonPrefix }}S3_ADDRESSING_STYLE"`
+        Attributes *string `env:"{{ $.CommonPrefix }}S3_ATTRIBUTES"`
+        TLSCAChain *string `env:"{{ $.CommonPrefix }}S3_TLS_CA_CHAIN"`
     }
 
     func (s3 S3Integration) IsActive() bool {
@@ -104,10 +106,10 @@ type ProxyConfig struct {
 {{ if .Integrations.saml }}
    {{- with .Integrations.saml }}
    type SAMLIntegration struct {
-        EntityID                string  `env:"APP_SAML_ENTITY_ID"`
-        MetadataURL             *string `env:"APP_SAML_METADATA_URL"`
-        SingleSignOnRedirectURL string  `env:"APP_SAML_SINGLE_SIGN_ON_REDIRECT_URL"`
-        SigningCertificate      string  `env:"APP_SAML_SIGNING_CERTIFICATE"`
+        EntityID                string  `env:"{{ $.CommonPrefix }}SAML_ENTITY_ID"`
+        MetadataURL             *string `env:"{{ $.CommonPrefix }}SAML_METADATA_URL"`
+        SingleSignOnRedirectURL string  `env:"{{ $.CommonPrefix }}SAML_SINGLE_SIGN_ON_REDIRECT_URL"`
+        SigningCertificate      string  `env:"{{ $.CommonPrefix }}SAML_SIGNING_CERTIFICATE"`
     }
 
     func (si SAMLIntegration) IsActive() bool {

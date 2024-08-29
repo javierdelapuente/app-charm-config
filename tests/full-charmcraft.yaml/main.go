@@ -90,7 +90,7 @@ func main() {
 				},
 			},
 			S3: config.S3Integration{
-				AccessKey:       "",
+				AccessKey:       "access_key",
 				SecretKey:       "secret_key",
 				Region:          &s3Region,
 				StorageClass:    &s3StorageClass,

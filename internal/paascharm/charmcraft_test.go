@@ -59,7 +59,8 @@ parts: {0-git: {plugin: nil, build-packages: [git]}}
 		t.Errorf("Error parsing charmcraft.yaml")
 	}
 	expected := paascharm.GoStructsData{
-		PackageName: "configpackage",
+		PackageName:  "configpackage",
+		CommonPrefix: "APP_",
 		Options: []paascharm.Option{
 			{
 				GoVarName:  "UserDefinedStr",

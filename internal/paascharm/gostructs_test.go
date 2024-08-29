@@ -96,6 +96,7 @@ func TestIntegrations(t *testing.T) {
 			},
 			paascharm.GoStructsData{
 				PackageName:             "pkg",
+				CommonPrefix:            "APP_",
 				HasDatabaseIntegrations: true,
 				Integrations: map[string]paascharm.Integration{
 					"mongodb":    {Name: "mongodb", GoName: "MongoDB", Interface: "mongodb_client", IsDatabase: true, DatabasePrefix: "APP_MONGODB_"},
@@ -114,7 +115,8 @@ func TestIntegrations(t *testing.T) {
 				},
 			},
 			paascharm.GoStructsData{
-				PackageName: "pkg",
+				PackageName:  "pkg",
+				CommonPrefix: "APP_",
 				Integrations: map[string]paascharm.Integration{
 					"s3":   {Name: "s3", GoName: "S3", Interface: "s3", Optional: true},
 					"saml": {Name: "saml", GoName: "SAML", Interface: "saml"},
@@ -128,7 +130,7 @@ func TestIntegrations(t *testing.T) {
 					"unknown": paascharm.CharmcraftIntegration{Interface: "Unknown"},
 				},
 			},
-			paascharm.GoStructsData{PackageName: "pkg"},
+			paascharm.GoStructsData{PackageName: "pkg", CommonPrefix: "APP_"},
 		},
 	}
 	for _, tt := range tests {

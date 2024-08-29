@@ -7,6 +7,8 @@ import (
 	"unicode"
 )
 
+const CommonPrefix = "APP_"
+
 // Map from integration key in charmcraft.yaml to Go name
 var IntegrationsToGoName = map[string]string{
 	"mongodb":    "MongoDB",
@@ -19,10 +21,10 @@ var IntegrationsToGoName = map[string]string{
 
 // Map from database integration key in charmcraft.yaml to its prefix in env vars
 var DatabaseIntegrationNameToPrefix = map[string]string{
-	"mongodb":    "APP_MONGODB_",
-	"mysql":      "APP_MYSQL_",
-	"postgresql": "APP_POSTGRESQL_",
-	"redis":      "APP_REDIS_",
+	"mongodb":    CommonPrefix + "MONGODB_",
+	"mysql":      CommonPrefix + "MYSQL_",
+	"postgresql": CommonPrefix + "POSTGRESQL_",
+	"redis":      CommonPrefix + "REDIS_",
 }
 
 // Charmcraft config options types to Go Types
@@ -35,10 +37,9 @@ var CharmcraftToGoTypes = map[string]string{
 	"string":  "string",
 }
 
-const ConfigOptionsPrefix = "APP_"
-
 type GoStructsData struct {
 	PackageName             string
+	CommonPrefix            string
 	Options                 []Option
 	HasDatabaseIntegrations bool
 	Integrations            map[string]Integration
@@ -62,7 +63,8 @@ type Integration struct {
 // Create a GoStructsData with all the information needed to generate the Go file from the charmcraft.yaml parsed file
 func NewGoStructsData(packageName string, charmcraft CharmcraftYamlConfig) (goStructs GoStructsData, err error) {
 	goStructs = GoStructsData{
-		PackageName: packageName,
+		PackageName:  packageName,
+		CommonPrefix: CommonPrefix,
 	}
 
 	for key, value := range charmcraft.Config.Options {
@@ -133,7 +135,7 @@ func buildGoVarType(configOption CharmcraftConfigOption) (result string, err err
 }
 
 func buildEnvVarName(configName string) string {
-	result := ConfigOptionsPrefix + configName
+	result := CommonPrefix + configName
 	result = strings.ReplaceAll(result, "-", "_")
 	result = strings.ToUpper(result)
 	return result
