@@ -64,17 +64,17 @@ parts: {0-git: {plugin: nil, build-packages: [git]}}
 		PackageName:  "configpackage",
 		CommonPrefix: "APP_",
 		Options: []paascharm.Option{{
-			GoVarName:  "UserDefinedStr",
-			GoVarType:  "string",
-			EnvVarName: "APP_USER_DEFINED_STR",
+			GoVarName:  "UserDefinedBool",
+			GoVarType:  "*bool",
+			EnvVarName: "APP_USER_DEFINED_BOOL",
 		}, {
 			GoVarName:  "UserDefinedInt",
 			GoVarType:  "int",
 			EnvVarName: "APP_USER_DEFINED_INT",
 		}, {
-			GoVarName:  "UserDefinedBool",
-			GoVarType:  "*bool",
-			EnvVarName: "APP_USER_DEFINED_BOOL",
+			GoVarName:  "UserDefinedStr",
+			GoVarType:  "string",
+			EnvVarName: "APP_USER_DEFINED_STR",
 		}},
 		HasDatabaseIntegrations: true,
 		Integrations: map[string]paascharm.Integration{
@@ -94,7 +94,7 @@ parts: {0-git: {plugin: nil, build-packages: [git]}}
 			}},
 	}
 
-	if diff := pretty.Diff(normalizeGoStructsData(goStructs), normalizeGoStructsData(expected)); len(diff) > 0 {
+	if diff := pretty.Diff(goStructs, expected); len(diff) > 0 {
 		t.Errorf("goStructs is not correctly generated. diff: %s\n", diff)
 	}
 }

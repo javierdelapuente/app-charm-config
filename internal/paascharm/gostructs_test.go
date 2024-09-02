@@ -2,7 +2,6 @@ package paascharm_test
 
 import (
 	"fmt"
-	"sort"
 	"testing"
 
 	"github.com/kr/pretty"
@@ -135,17 +134,4 @@ func TestIntegrations(t *testing.T) {
 			}
 		})
 	}
-}
-
-// Config options is a map in yaml and a slice in GoStructsData. Order the slice by GoVarName
-// so two GoStructsData can be easily compared
-func normalizeGoStructsData(goStructsData paascharm.GoStructsData) paascharm.GoStructsData {
-	result := goStructsData
-	orderedOptions := make([]paascharm.Option, len(result.Options))
-	copy(orderedOptions, result.Options)
-	sort.Slice(result.Options, func(i, j int) bool {
-		return orderedOptions[i].GoVarName < orderedOptions[j].GoVarName
-	})
-	return result
-
 }

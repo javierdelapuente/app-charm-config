@@ -3,6 +3,7 @@ package paascharm
 import (
 	"fmt"
 	"log"
+	"sort"
 	"strings"
 	"unicode"
 )
@@ -70,7 +71,7 @@ func NewGoStructsData(packageName string, charmcraft CharmcraftYAMLConfig) (GoSt
 	for key, value := range charmcraft.Config.Options {
 		varType, err := buildGoVarType(value)
 		if err != nil {
-			return goStructs, err
+			return GoStructsData{}, err
 		}
 		option := Option{
 			GoVarName:  buildGoVarName(key),
@@ -102,7 +103,7 @@ func NewGoStructsData(packageName string, charmcraft CharmcraftYAMLConfig) (GoSt
 		goStructs.Integrations[key] = integration
 	}
 
-	return goStructs, nil
+	return normalise(goStructs), nil
 }
 
 // config option name to Go variable name.
@@ -139,5 +140,18 @@ func buildEnvVarName(configName string) string {
 	result := CommonPrefix + configName
 	result = strings.ReplaceAll(result, "-", "_")
 	result = strings.ToUpper(result)
+	return result
+}
+
+// Normalise the GoStructsData, so the same input always outputs the same output.
+// Specifically, order the Options slice by GoVarName, as the order was given by
+// iterating over a map.
+func normalise(goStructsData GoStructsData) GoStructsData {
+	result := goStructsData
+	orderedOptions := make([]Option, len(result.Options))
+	copy(orderedOptions, result.Options)
+	sort.Slice(result.Options, func(i, j int) bool {
+		return orderedOptions[i].GoVarName < orderedOptions[j].GoVarName
+	})
 	return result
 }
