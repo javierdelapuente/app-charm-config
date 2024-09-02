@@ -10,7 +10,7 @@ import (
 const CommonPrefix = "APP_"
 
 // Map from integration key in charmcraft.yaml to Go name
-var IntegrationsToGoName = map[string]string{
+var integrationsToGoName = map[string]string{
 	"mongodb":    "MongoDB",
 	"mysql":      "MySQL",
 	"postgresql": "PostgreSQL",
@@ -20,7 +20,7 @@ var IntegrationsToGoName = map[string]string{
 }
 
 // Map from database integration key in charmcraft.yaml to its prefix in env vars
-var DatabaseIntegrationNameToPrefix = map[string]string{
+var databaseIntegrationNameToPrefix = map[string]string{
 	"mongodb":    CommonPrefix + "MONGODB_",
 	"mysql":      CommonPrefix + "MYSQL_",
 	"postgresql": CommonPrefix + "POSTGRESQL_",
@@ -28,7 +28,7 @@ var DatabaseIntegrationNameToPrefix = map[string]string{
 }
 
 // Charmcraft config options types to Go Types
-var CharmcraftToGoTypes = map[string]string{
+var charmcraftToGoTypes = map[string]string{
 	"bool":    "bool",
 	"boolean": "bool",
 	"float":   "float64",
@@ -88,13 +88,13 @@ func NewGoStructsData(packageName string, charmcraft CharmcraftYAMLConfig) (GoSt
 			Optional:  value.Optional,
 		}
 
-		goName, ok := IntegrationsToGoName[key]
+		goName, ok := integrationsToGoName[key]
 		if !ok {
 			log.Printf("Skipping unknown integration %s\n", key)
 			continue
 		}
 		integration.GoName = goName
-		if databasePrefix, okDatabase := DatabaseIntegrationNameToPrefix[key]; okDatabase {
+		if databasePrefix, okDatabase := databaseIntegrationNameToPrefix[key]; okDatabase {
 			goStructs.HasDatabaseIntegrations = true
 			integration.IsDatabase = true
 			integration.DatabasePrefix = databasePrefix
@@ -121,7 +121,7 @@ func buildGoVarName(configName string) (result string) {
 }
 
 func buildGoVarType(configOption CharmcraftConfigOption) (string, error) {
-	goType, ok := CharmcraftToGoTypes[configOption.Type]
+	goType, ok := charmcraftToGoTypes[configOption.Type]
 	if !ok {
 		return "", fmt.Errorf("unknown type for config option of type: %s", configOption.Type)
 	}
