@@ -24,7 +24,7 @@ func CreateGoStructs(charmcraftFileName, packageName, outputFile string) error {
 
 	charmcraftConfig, err := ParseCharmcraftYAML(yamlFile)
 	if err != nil {
-		return fmt.Errorf("error parsing charmcraft.yaml file: %v", err)
+		return fmt.Errorf("cannot parse charmcraft.yaml file: %v", err)
 	}
 
 	goStructInfo, err := NewGoStructsData(packageName, charmcraftConfig)
@@ -70,12 +70,12 @@ func GenerateGoStructs(goStructsData GoStructsData) ([]byte, error) {
 
 	err = tmpl.Execute(&buf, goStructsData)
 	if err != nil {
-		return nil, fmt.Errorf("failed executing go template: %v", err)
+		return nil, fmt.Errorf("cannot execute go template: %v", err)
 	}
 
 	goStructs, err := format.Source(buf.Bytes())
 	if err != nil {
-		return nil, fmt.Errorf("failed formatting go code: %v", err)
+		return nil, fmt.Errorf("cannot format go code: %v", err)
 	}
 
 	return goStructs, nil

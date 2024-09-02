@@ -124,7 +124,7 @@ func buildGoVarType(configOption CharmcraftConfigOption) (result string, err err
 	if goType, ok := CharmcraftToGoTypes[configOption.Type]; ok {
 		result = goType
 	} else {
-		return result, fmt.Errorf("Unknown type for config option of type: %s", configOption.Type)
+		return result, fmt.Errorf("unknown type for config option of type: %s", configOption.Type)
 	}
 
 	// If there is no default value for a config option, a pointer can help differentiate between
