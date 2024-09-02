@@ -63,23 +63,19 @@ parts: {0-git: {plugin: nil, build-packages: [git]}}
 	expected := paascharm.GoStructsData{
 		PackageName:  "configpackage",
 		CommonPrefix: "APP_",
-		Options: []paascharm.Option{
-			{
-				GoVarName:  "UserDefinedStr",
-				GoVarType:  "string",
-				EnvVarName: "APP_USER_DEFINED_STR",
-			},
-			{
-				GoVarName:  "UserDefinedInt",
-				GoVarType:  "int",
-				EnvVarName: "APP_USER_DEFINED_INT",
-			},
-			{
-				GoVarName:  "UserDefinedBool",
-				GoVarType:  "*bool",
-				EnvVarName: "APP_USER_DEFINED_BOOL",
-			},
-		},
+		Options: []paascharm.Option{{
+			GoVarName:  "UserDefinedStr",
+			GoVarType:  "string",
+			EnvVarName: "APP_USER_DEFINED_STR",
+		}, {
+			GoVarName:  "UserDefinedInt",
+			GoVarType:  "int",
+			EnvVarName: "APP_USER_DEFINED_INT",
+		}, {
+			GoVarName:  "UserDefinedBool",
+			GoVarType:  "*bool",
+			EnvVarName: "APP_USER_DEFINED_BOOL",
+		}},
 		HasDatabaseIntegrations: true,
 		Integrations: map[string]paascharm.Integration{
 			"mysql": {
@@ -89,15 +85,13 @@ parts: {0-git: {plugin: nil, build-packages: [git]}}
 				Optional:       true,
 				IsDatabase:     true,
 				DatabasePrefix: "APP_MYSQL_",
-			},
-			"s3": {
+			}, "s3": {
 				Name:       "s3",
 				GoName:     "S3",
 				Interface:  "s3",
 				Optional:   false,
 				IsDatabase: false,
-			},
-		},
+			}},
 	}
 
 	if diff := pretty.Diff(normalizeGoStructsData(goStructs), normalizeGoStructsData(expected)); len(diff) > 0 {
