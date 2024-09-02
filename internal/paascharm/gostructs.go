@@ -88,17 +88,18 @@ func NewGoStructsData(packageName string, charmcraft CharmcraftYAMLConfig) (GoSt
 			Optional:  value.Optional,
 		}
 
-		if goName, ok := IntegrationsToGoName[key]; ok {
-			integration.GoName = goName
-			if databasePrefix, okDatabase := DatabaseIntegrationNameToPrefix[key]; okDatabase {
-				goStructs.HasDatabaseIntegrations = true
-				integration.IsDatabase = true
-				integration.DatabasePrefix = databasePrefix
-			}
-			goStructs.Integrations[key] = integration
-		} else {
+		goName, ok := IntegrationsToGoName[key]
+		if !ok {
 			log.Printf("Skipping unknown integration %s\n", key)
+			continue
 		}
+		integration.GoName = goName
+		if databasePrefix, okDatabase := DatabaseIntegrationNameToPrefix[key]; okDatabase {
+			goStructs.HasDatabaseIntegrations = true
+			integration.IsDatabase = true
+			integration.DatabasePrefix = databasePrefix
+		}
+		goStructs.Integrations[key] = integration
 	}
 
 	return goStructs, nil
