@@ -21,7 +21,6 @@ func main() {
 
 	err := paascharm.CreateGoStructs(*charmcraftFile, *packageName, *outputFile)
 	if err != nil {
-		flag.Usage()
 		log.Fatal(err)
 	}
 }
