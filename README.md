@@ -34,13 +34,3 @@ you can use it with the "github.com/caarlos0/env/v11" library like:
 ```
 
 You can see the contents of the `CharmConfig` struct looking at the generated Go file.
-
-```
-Usage of paascharmgen:
-  -c string
-    	charmcraft.yaml file location. (default "charmcraft.yaml")
-  -o string
-    	output file. Overwrites previous file if it exists (default "appconfig.go")
-  -p string
-    	name of the generated package. (default "appconfig")
-```
