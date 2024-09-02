@@ -9,7 +9,7 @@ import (
 	"github.com/canonical/paascharmgen/internal/paascharm"
 )
 
-func TestCreateGoStructsWithMinimalCharmcraftYaml(t *testing.T) {
+func TestCreateGoStructsWithMinimalCharmcraftYAML(t *testing.T) {
 	tmpdir := t.TempDir()
 	charmcraftFileName := path.Join(tmpdir, "charmcraft.yaml")
 	os.WriteFile(charmcraftFileName, []byte("name: go-app\n"), 0644)

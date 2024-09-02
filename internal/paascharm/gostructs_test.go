@@ -56,12 +56,12 @@ func TestConfigOptions(t *testing.T) {
 	for _, tt := range tests {
 		testname := fmt.Sprintf("%s", tt.configOptionName)
 		t.Run(testname, func(t *testing.T) {
-			charmcraftYamlConfig := paascharm.CharmcraftYAMLConfig{
+			charmcraftYAMLConfig := paascharm.CharmcraftYAMLConfig{
 				Config: paascharm.CharmcraftConfig{
 					Options: map[string]paascharm.CharmcraftConfigOption{tt.configOptionName: tt.charmcraftConfigOption},
 				},
 			}
-			goStructsData, err := paascharm.NewGoStructsData("packagename", charmcraftYamlConfig)
+			goStructsData, err := paascharm.NewGoStructsData("packagename", charmcraftYAMLConfig)
 			if err != nil {
 				t.Fatalf("Error creating Go structs data %s", err)
 			}
@@ -81,7 +81,7 @@ func TestConfigOptions(t *testing.T) {
 func TestIntegrations(t *testing.T) {
 	var tests = []struct {
 		name           string
-		charmcraftYaml paascharm.CharmcraftYAMLConfig
+		charmcraftYAML paascharm.CharmcraftYAMLConfig
 		expected       paascharm.GoStructsData
 	}{
 		{
@@ -127,7 +127,7 @@ func TestIntegrations(t *testing.T) {
 			"unknown integration",
 			paascharm.CharmcraftYAMLConfig{
 				Requires: map[string]paascharm.CharmcraftIntegration{
-					"unknown": paascharm.CharmcraftIntegration{Interface: "Unknown"},
+					"unknown": {Interface: "Unknown"},
 				},
 			},
 			paascharm.GoStructsData{PackageName: "pkg", CommonPrefix: "APP_"},
@@ -136,7 +136,7 @@ func TestIntegrations(t *testing.T) {
 	for _, tt := range tests {
 		testname := fmt.Sprintf("%s", tt.name)
 		t.Run(testname, func(t *testing.T) {
-			actual, err := paascharm.NewGoStructsData("pkg", tt.charmcraftYaml)
+			actual, err := paascharm.NewGoStructsData("pkg", tt.charmcraftYAML)
 			if err != nil {
 				t.Fatalf("Error creating Go structs data %s", err)
 			}

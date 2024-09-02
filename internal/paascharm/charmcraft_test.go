@@ -9,7 +9,7 @@ import (
 	"github.com/canonical/paascharmgen/internal/paascharm"
 )
 
-func TestGenerateGoStructsFromCharmcraftYaml(t *testing.T) {
+func TestGenerateGoStructsFromCharmcraftYAML(t *testing.T) {
 	yamlData := `
 name: go-app
 type: charm
