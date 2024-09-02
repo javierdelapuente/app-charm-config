@@ -38,9 +38,9 @@ You can see the contents of the `CharmConfig` struct looking at the generated Go
 ```
 Usage of paascharmgen:
   -c string
-    	charmcraft.yaml file directory. (default "./")
+    	charmcraft.yaml file location. (default "charmcraft.yaml")
   -o string
-    	output file. Overwrites previous file if it exists (default "charmconfig.go")
+    	output file. Overwrites previous file if it exists (default "appconfig.go")
   -p string
-    	name of the generated package. (default "charmconfig")
+    	name of the generated package. (default "appconfig")
 ```
