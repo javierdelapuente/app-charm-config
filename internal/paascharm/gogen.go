@@ -56,12 +56,12 @@ func CreateGoStructs(charmcraftFileName, packageName, outputFile string) error {
 }
 
 //go:embed go.tmpl
-var GoTemplate string
+var goTemplate string
 
 // Generate a []byte with the Go file containing the Go structs for a GoStructsData struct.
 // The output code is formatted following gofmt style.
 func GenerateGoStructs(goStructsData GoStructsData) ([]byte, error) {
-	tmpl, err := template.New("").Parse(GoTemplate)
+	tmpl, err := template.New("").Parse(goTemplate)
 	if err != nil {
 		return nil, err
 	}
