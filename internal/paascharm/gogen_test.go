@@ -9,16 +9,16 @@ import (
 	"github.com/canonical/paascharmgen/internal/paascharm"
 )
 
-func TestCreateGoStructsWithEmptyCharmcraftYaml(t *testing.T) {
+func TestCreateGoStructsWithMinimalCharmcraftYaml(t *testing.T) {
 	tmpdir := t.TempDir()
-	charmcraftFile := path.Join(tmpdir, "charmcraft.yaml")
-	os.WriteFile(charmcraftFile, []byte(""), 0644)
+	charmcraftFileName := path.Join(tmpdir, "charmcraft.yaml")
+	os.WriteFile(charmcraftFileName, []byte("name: go-app\n"), 0644)
 	packageName := "myconfigcharm"
 	outputFile := path.Join(tmpdir, packageName, "config.go")
 
-	err := paascharm.CreateGoStructs(charmcraftFile, packageName, outputFile)
+	err := paascharm.CreateGoStructs(charmcraftFileName, packageName, outputFile)
 	if err != nil {
-		t.Errorf("Error creating go Structs %v\n", err)
+		t.Errorf("Error creating go Structs: %v\n", err)
 	}
 
 	// Check that the outputfile exists and containes the correct package name

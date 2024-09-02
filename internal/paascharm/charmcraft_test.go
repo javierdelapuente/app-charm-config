@@ -1,6 +1,7 @@
 package paascharm_test
 
 import (
+	"strings"
 	"testing"
 
 	"github.com/kr/pretty"
@@ -50,7 +51,8 @@ requires:
 parts: {0-git: {plugin: nil, build-packages: [git]}}
 `
 	packageName := "configpackage"
-	charmcraft, err := paascharm.ParseCharmcraftYaml([]byte(yamlData))
+
+	charmcraft, err := paascharm.ParseCharmcraftYAML(strings.NewReader(yamlData))
 	if err != nil {
 		t.Errorf("Error parsing charmcraft.yaml")
 	}

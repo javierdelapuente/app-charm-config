@@ -15,13 +15,14 @@ import (
 // and outputs the Go file with the proper structs in the outputFile location,
 // using as package name packageName. It will override the outputFile file if
 // it exists and create all the parent directories if missing.
-func CreateGoStructs(charmcraftFile string, packageName string, outputFile string) (err error) {
-	yamlFile, err := os.ReadFile(charmcraftFile)
+func CreateGoStructs(charmcraftFileName string, packageName string, outputFile string) error {
+	yamlFile, err := os.Open(charmcraftFileName)
 	if err != nil {
 		return fmt.Errorf("cannot read charmcraft.yaml file: %v", err)
 	}
+	defer yamlFile.Close()
 
-	charmcraftConfig, err := ParseCharmcraftYaml(yamlFile)
+	charmcraftConfig, err := ParseCharmcraftYAML(yamlFile)
 	if err != nil {
 		return fmt.Errorf("error parsing charmcraft.yaml file: %v", err)
 	}
@@ -51,7 +52,7 @@ func CreateGoStructs(charmcraftFile string, packageName string, outputFile strin
 	}
 	log.Printf("configuration written to file: %s\n", outputFile)
 
-	return
+	return nil
 }
 
 //go:embed go.tmpl
@@ -59,10 +60,10 @@ var GoTemplate string
 
 // Generate a []byte with the Go file containing the Go structs for a GoStructsData struct.
 // The output code is formatted following gofmt style.
-func GenerateGoStructs(goStructsData GoStructsData) (goStructs []byte, err error) {
+func GenerateGoStructs(goStructsData GoStructsData) ([]byte, error) {
 	tmpl, err := template.New("").Parse(GoTemplate)
 	if err != nil {
-		return
+		return nil, err
 	}
 
 	var buf bytes.Buffer
@@ -72,7 +73,7 @@ func GenerateGoStructs(goStructsData GoStructsData) (goStructs []byte, err error
 		return nil, fmt.Errorf("failed executing go template: %v", err)
 	}
 
-	goStructs, err = format.Source(buf.Bytes())
+	goStructs, err := format.Source(buf.Bytes())
 	if err != nil {
 		return nil, fmt.Errorf("failed formatting go code: %v", err)
 	}

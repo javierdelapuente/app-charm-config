@@ -56,7 +56,7 @@ func TestConfigOptions(t *testing.T) {
 	for _, tt := range tests {
 		testname := fmt.Sprintf("%s", tt.configOptionName)
 		t.Run(testname, func(t *testing.T) {
-			charmcraftYamlConfig := paascharm.CharmcraftYamlConfig{
+			charmcraftYamlConfig := paascharm.CharmcraftYAMLConfig{
 				Config: paascharm.CharmcraftConfig{
 					Options: map[string]paascharm.CharmcraftConfigOption{tt.configOptionName: tt.charmcraftConfigOption},
 				},
@@ -81,12 +81,12 @@ func TestConfigOptions(t *testing.T) {
 func TestIntegrations(t *testing.T) {
 	var tests = []struct {
 		name           string
-		charmcraftYaml paascharm.CharmcraftYamlConfig
+		charmcraftYaml paascharm.CharmcraftYAMLConfig
 		expected       paascharm.GoStructsData
 	}{
 		{
 			"mongodb mysql redis and postgresql",
-			paascharm.CharmcraftYamlConfig{
+			paascharm.CharmcraftYAMLConfig{
 				Requires: map[string]paascharm.CharmcraftIntegration{
 					"mongodb":    {Interface: "mongodb_client"},
 					"mysql":      {Interface: "mysql_client"},
@@ -108,7 +108,7 @@ func TestIntegrations(t *testing.T) {
 		},
 		{
 			"optional s3 and saml, no database integration",
-			paascharm.CharmcraftYamlConfig{
+			paascharm.CharmcraftYAMLConfig{
 				Requires: map[string]paascharm.CharmcraftIntegration{
 					"s3":   {Interface: "s3", Optional: true},
 					"saml": {Interface: "saml"},
@@ -125,7 +125,7 @@ func TestIntegrations(t *testing.T) {
 		},
 		{
 			"unknown integration",
-			paascharm.CharmcraftYamlConfig{
+			paascharm.CharmcraftYAMLConfig{
 				Requires: map[string]paascharm.CharmcraftIntegration{
 					"unknown": paascharm.CharmcraftIntegration{Interface: "Unknown"},
 				},

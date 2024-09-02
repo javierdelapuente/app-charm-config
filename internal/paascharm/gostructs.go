@@ -61,8 +61,8 @@ type Integration struct {
 }
 
 // Create a GoStructsData with all the information needed to generate the Go file from the charmcraft.yaml parsed file
-func NewGoStructsData(packageName string, charmcraft CharmcraftYamlConfig) (goStructs GoStructsData, err error) {
-	goStructs = GoStructsData{
+func NewGoStructsData(packageName string, charmcraft CharmcraftYAMLConfig) (GoStructsData, error) {
+	goStructs := GoStructsData{
 		PackageName:  packageName,
 		CommonPrefix: CommonPrefix,
 	}
@@ -101,7 +101,7 @@ func NewGoStructsData(packageName string, charmcraft CharmcraftYamlConfig) (goSt
 		}
 	}
 
-	return
+	return goStructs, nil
 }
 
 // config option name to Go variable name.

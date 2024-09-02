@@ -1,18 +1,22 @@
 package paascharm
 
 import (
+	"io"
+
 	"gopkg.in/yaml.v3"
 )
 
-func ParseCharmcraftYaml(yamlData []byte) (charmcraft CharmcraftYamlConfig, err error) {
-	err = yaml.Unmarshal(yamlData, &charmcraft)
+func ParseCharmcraftYAML(reader io.Reader) (CharmcraftYAMLConfig, error) {
+	decoder := yaml.NewDecoder(reader)
+	var charmcraft CharmcraftYAMLConfig
+	err := decoder.Decode(&charmcraft)
 	if err != nil {
-		return charmcraft, err
+		return CharmcraftYAMLConfig{}, err
 	}
-	return
+	return charmcraft, nil
 }
 
-type CharmcraftYamlConfig struct {
+type CharmcraftYAMLConfig struct {
 	Config   CharmcraftConfig
 	Requires map[string]CharmcraftIntegration
 }
