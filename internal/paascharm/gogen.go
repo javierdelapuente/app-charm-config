@@ -15,7 +15,7 @@ import (
 // and outputs the Go file with the proper structs in the outputFile location,
 // using as package name packageName. It will override the outputFile file if
 // it exists and create all the parent directories if missing.
-func CreateGoStructs(charmcraftFileName string, packageName string, outputFile string) error {
+func CreateGoStructs(charmcraftFileName, packageName, outputFile string) error {
 	yamlFile, err := os.Open(charmcraftFileName)
 	if err != nil {
 		return fmt.Errorf("cannot read charmcraft.yaml file: %v", err)
