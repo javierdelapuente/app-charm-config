@@ -21,14 +21,14 @@ func main() {
 	secretKey := "onerandomkey"
 	httpProxy := "http://proxy.example.com:3128"
 	expected := config.CharmConfig{
-		ConfigOptions: config.ConfigOptions{
+		Options: config.ConfigOptions{
 			BaseURL:     "http://go-app.example.com",
 			Port:        9000,
 			MetricsPort: &metricsPort,
 			MetricsPath: &metricsPath,
 			SecretKey:   &secretKey,
 		},
-		ProxyConfig: config.ProxyConfig{
+		Proxy: config.ProxyConfig{
 			HTTPProxy:  &httpProxy,
 			HTTPSProxy: nil,
 			NoProxy:    []string{"127.0.0.1", "localhost", "::1"},

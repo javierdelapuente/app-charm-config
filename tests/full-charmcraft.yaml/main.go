@@ -34,7 +34,7 @@ func main() {
 	samlMetadataURL := "https://login.staging.ubuntu.com/saml/metadata"
 
 	expected := config.CharmConfig{
-		ConfigOptions: config.ConfigOptions{
+		Options: config.ConfigOptions{
 			BaseURL:     "http://go-app.example.com",
 			Port:        9000,
 			MetricsPort: &metricsPort,
@@ -49,7 +49,7 @@ func main() {
 				UserConfigStringNoDefault: nil,
 			},
 		},
-		ProxyConfig: config.ProxyConfig{
+		Proxy: config.ProxyConfig{
 			HTTPProxy:  &httpProxy,
 			HTTPSProxy: nil,
 			NoProxy:    []string{"127.0.0.1", "localhost", "::1"},

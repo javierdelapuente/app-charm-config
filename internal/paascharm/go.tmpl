@@ -2,8 +2,8 @@
 package {{ .PackageName }}
 
 type CharmConfig struct {
-     ConfigOptions ConfigOptions
-     ProxyConfig   ProxyConfig
+     Options ConfigOptions
+     Proxy ProxyConfig
      {{- if .Integrations }}
          Integrations Integrations
      {{- end }}
