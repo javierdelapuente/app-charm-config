@@ -54,11 +54,11 @@ parts: {0-git: {plugin: nil, build-packages: [git]}}
 
 	charmcraft, err := paascharm.ParseCharmcraftYAML(strings.NewReader(yamlData))
 	if err != nil {
-		t.Errorf("Error parsing charmcraft.yaml")
+		t.Errorf("Error parsing charmcraft.yaml: %v\n", err)
 	}
 	goStructs, err := paascharm.NewGoStructsData(packageName, charmcraft)
 	if err != nil {
-		t.Errorf("Error parsing charmcraft.yaml")
+		t.Errorf("Error parsing charmcraft.yaml: %v\n", err)
 	}
 	expected := paascharm.GoStructsData{
 		PackageName:  "configpackage",
