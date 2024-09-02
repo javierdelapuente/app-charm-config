@@ -23,7 +23,7 @@ type CharmcraftConfig struct {
 
 type CharmcraftConfigOption struct {
 	Type        string
-	Default     interface{}
+	Default     any
 	Description string
 }
 
