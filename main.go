@@ -4,7 +4,7 @@ import (
 	"flag"
 	"log"
 
-	"github.com/canonical/paascharmgen/internal/paascharm"
+	"github.com/javierdelapuente/app-charm-config/internal/paascharm"
 )
 
 const (

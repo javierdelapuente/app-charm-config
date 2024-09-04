@@ -6,7 +6,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/canonical/paascharmgen/internal/paascharm"
+	"github.com/javierdelapuente/app-charm-config/internal/paascharm"
 )
 
 func TestCreateGoStructsWithMinimalCharmcraftYAML(t *testing.T) {

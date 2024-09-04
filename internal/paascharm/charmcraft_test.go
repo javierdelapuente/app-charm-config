@@ -6,7 +6,7 @@ import (
 
 	"github.com/kr/pretty"
 
-	"github.com/canonical/paascharmgen/internal/paascharm"
+	"github.com/javierdelapuente/app-charm-config/internal/paascharm"
 )
 
 func TestGenerateGoStructsFromCharmcraftYAML(t *testing.T) {
